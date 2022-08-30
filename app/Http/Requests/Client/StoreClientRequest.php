@@ -26,9 +26,12 @@ class StoreClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_name'  => 'required|max:100|unique:client,client_name',
+            'client_name'  => 'required|max:100|unique:clients,client_name',
             'email' => 'required|email',
-            'site' => 'required|string'
+            'site' => 'required|string',
+            'phone' => 'required|string',
+            'company_id' => 'required|array|min:1',
+            'company_id.*' => 'required|string',
         ];
     }
 }

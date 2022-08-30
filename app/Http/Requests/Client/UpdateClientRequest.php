@@ -26,9 +26,11 @@ class UpdateClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_name'  => 'required|max:100|unique:client,client_name' . $this->id,
+            'client_name'  => 'required|max:100|unique:clients,client_name,' . $this->client->id,
             'email' => 'required|email',
-            'site' => 'required|string'
+            'site' => 'required|string',
+            'company_id' => 'required|array|min:1',
+            'company_id.*' => 'required|string',
         ];
     }
 }

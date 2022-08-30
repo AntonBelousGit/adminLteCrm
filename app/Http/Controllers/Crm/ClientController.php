@@ -7,86 +7,101 @@ use App\Http\Requests\Client\StoreClientRequest;
 use App\Http\Requests\Client\UpdateClientRequest;
 use App\Models\Client;
 use App\Services\Client\ClientService;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Services\Company\CompanyService;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ClientController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @param ClientService $clientService
+     * @return View
      */
-    public function index(ClientService $clientService)
+    public function index(ClientService $clientService): View
     {
-
+        $clients = $clientService->index();
+        return view('adminlte::client.index', compact('clients'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @param CompanyService $companyService
+     * @return View
      */
-    public function create()
+    public function create(CompanyService $companyService): View
     {
-        //
+        $companies = $companyService->getAllCompanies();
+        return view('adminlte::client.create', compact('companies'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreClientRequest $request
+     * @param StoreClientRequest $storeClientRequest
      * @param ClientService $clientService
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(StoreClientRequest $request, ClientService $clientService)
+    public function store(StoreClientRequest $storeClientRequest, ClientService $clientService): RedirectResponse
     {
-        //
-    }
+        $client = $clientService->store($storeClientRequest);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param Client $client
-     * @return Response
-     */
-    public function show(Client $client)
-    {
-        //
+        if ($client) {
+            return redirect()->route('client.index')->with('success', 'Nice! Client created');
+        }
+
+        return back();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param Client $client
-     * @return Response
+     * @param CompanyService $companyService
+     * @param ClientService $clientService
+     * @return View
      */
-    public function edit(Client $client)
+    public function edit(Client $client, CompanyService $companyService, ClientService $clientService): View
     {
-        //
+        $loadClientCompanyId = $clientService->loadClientCompanyId($client);
+        $companies = $companyService->getAllCompanies();
+        return view('adminlte::client.edit', compact('companies', 'client', 'loadClientCompanyId'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateClientRequest $request
+     * @param UpdateClientRequest $updateClientRequest
      * @param Client $client
      * @param ClientService $clientService
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(UpdateClientRequest $request, Client $client, ClientService $clientService)
+    public function update(UpdateClientRequest $updateClientRequest, Client $client, ClientService $clientService): RedirectResponse
     {
-        //
+        $client = $clientService->update($updateClientRequest, $client);
+
+        if ($client) {
+            return redirect()->route('client.index')->with('success', 'Nice! Client updated');
+        }
+
+        return back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Client $client
-     * @return Response
+     * @param ClientService $clientService
+     * @return RedirectResponse
      */
-    public function destroy(Client $client)
+    public function destroy(Client $client, ClientService $clientService): RedirectResponse
     {
-        //
+        if ($clientService->delete($client)) {
+            return redirect()->route('client.index')->with('success', 'Nice! Client deleted');
+        }
+
+        return back();
     }
 }

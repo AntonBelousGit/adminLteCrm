@@ -26,9 +26,12 @@ class UpdateCompanyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name'  => 'required|max:100|unique:company,company_name' . $this->id,
+            'company_name' => 'required|max:100|unique:companies,company_name,' . $this->company->id,
             'email' => 'required|email',
-            'phone' => 'required|string'
+            'phone' => 'required|string',
+            'site' => 'required|string',
+            'client_id' => 'nullable|array',
+            'client_id.*' => 'nullable|string',
         ];
     }
 }

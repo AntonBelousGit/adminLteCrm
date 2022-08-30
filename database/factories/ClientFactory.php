@@ -20,6 +20,7 @@ class ClientFactory extends Factory
             'client_name' => fake()->name() . uniqid(),
             'email' => fake()->email(),
             'site' => fake()->url(),
+            'phone' => fake()->phoneNumber()
         ];
     }
 }

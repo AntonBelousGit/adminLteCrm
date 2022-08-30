@@ -6,23 +6,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Client extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-      'client_name',
-      'email',
-      'site'
+        'client_name',
+        'email',
+        'site',
+        'phone'
     ];
 
     /**
-     * @return HasMany
+     * @return BelongsToMany
      */
-    public function companies(): HasMany
+    public function companies(): BelongsToMany
     {
-        return $this->hasMany(Company::class, 'company_id');
+        return $this->belongsToMany(Company::class);
     }
 }

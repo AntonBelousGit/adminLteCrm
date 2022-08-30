@@ -18,6 +18,7 @@ class CompanyFactory extends Factory
     {
         return [
             'company_name' => fake()->name() . uniqid(),
+            'email' => fake()->email(),
             'site' => fake()->url(),
             'phone' => fake()->phoneNumber(),
         ];
