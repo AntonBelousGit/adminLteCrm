@@ -10,8 +10,6 @@ use App\Services\Client\ClientService;
 use App\Services\Company\CompanyService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CompanyController extends Controller
 {
