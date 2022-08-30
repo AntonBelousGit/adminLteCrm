@@ -57,7 +57,7 @@ class ClientService
     {
         $client->load('companies');
 
-        return Arr::pluck($client->companies, 'id') ?? [];
+        return Arr::pluck($client->companies, 'id');
     }
 
     /**

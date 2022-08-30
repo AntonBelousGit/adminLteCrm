@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Company;
 
-
 use App\Http\Requests\Company\StoreCompanyRequest;
 use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Models\Company;
@@ -76,8 +75,9 @@ class CompanyService
     {
         $company->load('clients');
 
-        return Arr::pluck($company->clients, 'id') ?? [];
+        return Arr::pluck($company->clients, 'id');
     }
+
     /**
      * @param Company $company
      * @param array $clientID
